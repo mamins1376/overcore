@@ -1,0 +1,8 @@
+[package]
+name = "overlib"
+version = "0.1.0"
+authors = ["Mohammad Amin Sameti <mamins1376@gmail.com>"]
+
+[dependencies]
+license = "0.3.0"
+sample = "0.9.0"
