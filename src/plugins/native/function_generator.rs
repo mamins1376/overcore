@@ -10,25 +10,27 @@ const TWO_PI: f64 = 2. * PI;
 const COEFF: f64 = TWO_PI / RATE as f64;
 
 #[inline]
-fn calculate(position: usize, handle: &mut NoteHandle) -> Frame {
-    let frame: Frame = handle.phase.sin().into();
+fn calculate(position: usize, state: &mut NoteState) -> Frame {
+    let frame: Frame = state.phase.sin().into();
 
-    let phase = handle.phase + COEFF * position as f64 * handle.freq;
+    let phase = state.phase + COEFF * position as f64 * state.freq;
 
-    handle.phase = if phase >= TWO_PI { phase - TWO_PI } else { phase };
+    state.phase = if phase >= TWO_PI { phase - TWO_PI } else { phase };
 
-    frame * handle.note.params.velocities().into()
+    frame * state.velocities.clone()
 }
 
-struct NoteHandle {
-    note: Note,
+struct NoteState {
+    params: NoteParams,
     phase: f64,
     // cache to note frequency
-    freq: f64
+    freq: f64,
+    // cache to velocities
+    velocities: Frame
 }
 
 #[derive(Default)]
-pub struct FunctionGenerator(HashMap<NoteName, NoteHandle>);
+pub struct FunctionGenerator(HashMap<NoteName, NoteState>);
 
 impl FunctionGenerator {
     #[inline]
@@ -37,18 +39,21 @@ impl FunctionGenerator {
             for event in events.iter() {
                 match event {
                     &Event::NoteOn(ref note, _) => {
-                        let handle = NoteHandle {
-                            note: note.clone(),
+                        let state = NoteState {
+                            params: note.params.clone(),
                             phase: 0.,
-                            freq: note.freq()
+                            freq: note.freq(),
+                            velocities: note.params.velocities().into()
                         };
-                        self.0.insert(note.name.clone(), handle);
+                        self.0.insert(note.name.clone(), state);
                     },
                     &Event::NoteSet(ref name, ref param) => {
-                        if let Some(handle) = self.0.get_mut(name) {
-                            handle.note.params.apply(param);
-                            if let &NoteParam::Cents(cents) = param {
-                                handle.freq = name.detune(cents);
+                        if let Some(state) = self.0.get_mut(name) {
+                            state.params.apply(param);
+                            if let &NoteParam::Cents(c) = param {
+                                state.freq = name.detune(c)
+                            } else {
+                                state.velocities = state.params.velocities().into();
                             }
                         }
                     },
@@ -85,7 +90,7 @@ impl Plugin for FunctionGenerator {
                     self.apply_moment(moment);
 
                     *frame = self.0.values_mut()
-                        .map(|handle| calculate(i, handle))
+                        .map(|state| calculate(i, state))
                         .sum();
                 }
             }
