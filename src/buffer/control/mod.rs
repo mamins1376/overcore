@@ -4,8 +4,8 @@ use super::Buffer;
 
 pub mod prelude {
     pub use super::{NoteAlphabet, NoteName, NoteRef};
-    pub use super::{NoteParamName, NoteParam, NoteParams};
-    pub use super::{Note, Event, Moment, ControlBuffer};
+    pub use super::{NoteParam, NoteParams, Note};
+    pub use super::{Event, Moment, ControlBuffer};
 }
 
 mod note;

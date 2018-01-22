@@ -231,27 +231,17 @@ impl NoteName {
 /// Reference for comparing notes.
 pub type NoteRef = NoteName;
 
-#[derive(Debug, Clone, PartialEq, Eq, Hash)]
-/// Possible names of a note's parameter.
-pub enum NoteParamName {
-    /// Note's amplitude.
-    Velocity,
-
-    /// Note's channel amplification.
-    Panning,
-
-    /// Note's detuning.
-    Cents
-}
-
 #[derive(Debug, Clone, PartialEq)]
 /// Value for a specific parameter of a note.
-pub struct NoteParam {
-    /// Name of note's parameter.
-    pub name: NoteParamName,
+pub enum NoteParam {
+    /// Note's amplitude.
+    Velocity(f64),
 
-    /// Value of note's parameter specified by `name`.
-    pub value: f64
+    /// Note's channel amplification.
+    Panning(f64),
+
+    /// Note's detuning.
+    Cents(f64)
 }
 
 #[derive(Debug, Clone, PartialEq)]
@@ -286,16 +276,32 @@ impl NoteParams {
 
     #[inline]
     /// Apply given `param` change.
+    ///
+    /// # Examples
+    /// ```
+    /// use overlib::buffer::control::{NoteParam, NoteParams};
+    /// let mut params = NoteParams { velocity: 100., panning: 0., cents: 0., };
+    /// params.apply(&NoteParam::Velocity(50.));
+    /// params.apply(&NoteParam::Panning(-30.));
+    /// params.apply(&NoteParam::Cents(100.));
+    /// assert_eq!(params, NoteParams { velocity: 50., panning: -30., cents: 100. });
     pub fn apply(&mut self, param: &NoteParam) {
-        *(match param.name {
-            NoteParamName::Velocity => &mut self.velocity,
-            NoteParamName::Panning => &mut self.panning,
-            NoteParamName::Cents => &mut self.cents
-        }) = param.value;
+        match param {
+            &NoteParam::Velocity(v) => { self.velocity = v },
+            &NoteParam::Panning(p) => { self.panning = p },
+            &NoteParam::Cents(c) => { self.cents = c }
+        }
     }
 
     #[inline]
     /// Multiply `self.velocity` by `value`.
+    ///
+    /// # Examples
+    /// ```
+    /// use overlib::buffer::control::{NoteParam, NoteParams};
+    /// let mut params = NoteParams { velocity: 100., panning: 0., cents: 0., };
+    /// params.gain(2);
+    /// assert_eq!(params, NoteParams { velocity: 200., panning: 0., cents: 0. });
     pub fn gain<T: Into<f64>>(&mut self, gain: T) {
         let amplitude = (self.velocity as f64) * gain.into();
         self.velocity = amplitude as f64;
@@ -331,6 +337,13 @@ impl NoteParams {
         } else {
             (l * v, h * v)
         }
+    }
+}
+
+impl Default for NoteParams {
+    #[inline]
+    fn default() -> Self {
+        Self { velocity: 100., panning: 0., cents: 0. }
     }
 }
 
