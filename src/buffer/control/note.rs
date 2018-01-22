@@ -1,5 +1,5 @@
 use std::convert::TryFrom;
-use ::hardconf::consts::TWO_POW_ONE_TWELFTH;
+use ::hardconf::TWO_POW_ONE_TWELFTH;
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
 /// Alphabets of a [`NoteName`] (e.g. E in "E3").

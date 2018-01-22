@@ -4,7 +4,7 @@
 //! factory standard.
 
 use std::collections::HashMap;
-use ::hardconf::meta;
+use super::hardconf;
 
 pub mod prelude {
     //! The Plugins Prelude
@@ -226,7 +226,7 @@ impl Default for PluginDesc {
             name: "[unknown]".to_owned(),
             category: "General".to_owned(),
             description: empty(),
-            url: meta::OVERDAW_URL.to_owned(),
+            url: hardconf::OVERDAW_URL.to_owned(),
             developer: "Overdaw Developers".to_owned(),
             version: "0.1".to_owned(),
             license: "MIT".to_owned(),

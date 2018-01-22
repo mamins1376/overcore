@@ -2,7 +2,7 @@ use std::f64::consts::PI;
 use ::buffer::prelude::*;
 use ::plugins::prelude::*;
 use ::utils::note::ActiveNotes;
-use ::hardconf::buffer::RATE;
+use ::hardconf::RATE;
 use ::Core;
 use super::NativePlugin;
 
