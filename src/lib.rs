@@ -10,7 +10,6 @@ extern crate sample;
 
 pub mod hardconf;
 pub mod buffer;
-pub mod utils;
 pub mod meta;
 pub mod plugins;
 
