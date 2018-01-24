@@ -8,7 +8,7 @@ DOCKER_RUN=docker run --mount type=bind,src="${PWD}/src",dst=/build/src,readonly
 all: test
 
 test: ${BUILD_STAMP}
-	${DOCKER_RUN} cargo test
+	@${DOCKER_RUN} cargo test
 
 build: ${BUILD_STAMP}
 	${DOCKER_RUN} cargo build
