@@ -2,18 +2,16 @@ use std::f64::consts::PI;
 use std::collections::HashMap;
 use ::buffer::prelude::*;
 use ::plugins::prelude::*;
-use ::hardconf::RATE;
 use ::Core;
 use super::NativePlugin;
 
-const TWO_PI: f64 = 2. * PI;
-const COEFF: f64 = TWO_PI / RATE as f64;
-
 #[inline]
-fn calculate(position: usize, state: &mut NoteState) -> Frame {
+fn calculate(position: f64, state: &mut NoteState) -> Frame {
+    const TWO_PI: f64 = 2. * PI;
+
     let frame: Frame = state.phase.sin().into();
 
-    let phase = state.phase + COEFF * position as f64 * state.freq;
+    let phase = state.phase + TWO_PI * position * state.freq;
 
     state.phase = if phase >= TWO_PI { phase - TWO_PI } else { phase };
 
@@ -29,8 +27,7 @@ struct NoteState {
     velocities: Frame
 }
 
-#[derive(Default)]
-pub struct FunctionGenerator(HashMap<NoteName, NoteState>);
+pub struct FunctionGenerator(HashMap<NoteName, NoteState>, f64);
 
 impl FunctionGenerator {
     #[inline]
@@ -89,8 +86,10 @@ impl Plugin for FunctionGenerator {
                 for (i, (moment, frame)) in items.enumerate() {
                     self.apply_moment(moment);
 
+                    let pos = i as f64 / self.1;
+
                     *frame = self.0.values_mut()
-                        .map(|state| calculate(i, state))
+                        .map(|state| calculate(pos, state))
                         .sum();
                 }
             }
@@ -101,7 +100,12 @@ impl Plugin for FunctionGenerator {
 }
 
 impl NativePlugin for FunctionGenerator {
-    fn new(_: &Core) -> Self { Default::default() }
+    fn new(core: &Core) -> Self {
+        Self {
+            0: HashMap::new(),
+            1: core.config.sample_rate as f64
+        }
+    }
 
     fn get_uuid() -> &'static str { "ea8467d9-6b7d-41fa-b9f6-a33e28db701f" }
 

@@ -22,6 +22,7 @@ use self::buffer::prelude::{ControlBuffer, AudioBuffer};
 use self::graph::Graph;
 
 pub struct Config {
+    pub sample_rate: u32,
     pub buffer_size: usize,
     pub pool_preallocate: usize
 }
