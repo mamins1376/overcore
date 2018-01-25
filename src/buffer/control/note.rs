@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
+use ::buffer::prelude::Frame;
 use ::hardconf::TWO_POW_ONE_TWELFTH;
-use super::Frame;
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
 /// Alphabets of a [`NoteName`] (e.g. E in "E3").
@@ -271,10 +271,12 @@ impl NoteParams {
     /// let params = NoteParams::from_velocities(0., 100., 0.);
     /// assert_eq!(params, NoteParams { velocity: 100., panning: -100., cents: 0. });
     /// ```
-    pub fn from_velocities(left: f64, right: f64, cents: f64) -> Self {
+    pub fn from_velocities(frame: Frame, cents: f64) -> Self {
+        let [left, right]: [f64; 2] = frame.into();
+
         let (velocity, panning) = if left == right {
             (left, 0.)
-        } else if right = 0. {
+        } else if right == 0. {
             (left, 100.)
         } else if left == 0. {
             (right, -100.)
@@ -325,17 +327,17 @@ impl NoteParams {
     /// ```
     /// use overlib::buffer::control::NoteParams;
     /// let params = NoteParams { velocity: 80., panning: 0., cents: 0. };
-    /// assert_eq!(params.velocities(), (80., 80.));
+    /// assert_eq!(params.velocities(), [80.; 2].into());
     ///
     /// let params = NoteParams { velocity: 100., panning: 100., cents: 0. };
-    /// let (l, r) = params.velocities();
-    /// assert_eq!((l.round(), r.round()), (100., 0.));
+    /// let velocities: [f64; 2] = params.velocities().round().into();
+    /// assert_eq!(velocities, [100., 0.]);
     /// ```
-    pub fn velocities(&self) -> (f64, f64) {
+    pub fn velocities(&self) -> Frame {
         let v = self.velocity as f64;
 
         if self.panning == 0. {
-            return (v, v);
+            return v.into();
         }
 
         use std::f64::consts::{FRAC_PI_4, SQRT_2};
@@ -344,9 +346,9 @@ impl NoteParams {
         let (h, l) = (c + s, c - s);
 
         if self.panning.is_sign_positive() {
-            (h * v, l * v)
+            (h * v, l * v).into()
         } else {
-            (l * v, h * v)
+            (l * v, h * v).into()
         }
     }
 }
