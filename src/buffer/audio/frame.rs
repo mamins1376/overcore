@@ -21,6 +21,16 @@ impl From<[Sample; 2]> for Frame {
     fn from(array: [Sample; 2]) -> Self { Self { 0: array } }
 }
 
+impl Into<(Sample, Sample)> for Frame {
+    #[inline]
+    fn into(self) -> (Sample, Sample) { (self.0[0], self.0[1]) }
+}
+
+impl Into<[Sample; 2]> for Frame {
+    #[inline]
+    fn into(self) -> [Sample; 2] { self.0 }
+}
+
 macro_rules! impl_op {
     ($t:ident, $f:ident, $o:tt, $ta:ident, $fa:ident, $oa:tt) => (
         impl $t for Frame {
