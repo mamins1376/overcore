@@ -1,5 +1,6 @@
 use std::convert::TryFrom;
 use ::hardconf::TWO_POW_ONE_TWELFTH;
+use super::Frame;
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
 /// Alphabets of a [`NoteName`] (e.g. E in "E3").
@@ -270,8 +271,18 @@ impl NoteParams {
     /// let params = NoteParams::from_velocities(0., 100., 0.);
     /// assert_eq!(params, NoteParams { velocity: 100., panning: -100., cents: 0. });
     /// ```
-    pub fn from_velocities(_left: f64, _right: f64, _cents: f64) -> Self {
-        unimplemented!()
+    pub fn from_velocities(left: f64, right: f64, cents: f64) -> Self {
+        let (velocity, panning) = if left == right {
+            (left, 0.)
+        } else if right = 0. {
+            (left, 100.)
+        } else if left == 0. {
+            (right, -100.)
+        } else {
+            unimplemented!()
+        };
+
+        Self { velocity, panning, cents }
     }
 
     #[inline]
