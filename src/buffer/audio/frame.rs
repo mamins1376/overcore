@@ -3,8 +3,28 @@ use std::ops::*;
 use super::Sample;
 
 /// A stereo frame.
-#[derive(Debug, Default, Clone, PartialEq, PartialOrd)]
+#[derive(Debug, Default, Copy, Clone, PartialEq, PartialOrd)]
 pub struct Frame(pub [Sample; 2]);
+
+macro_rules! impl_fn {
+    ($n:ident) => (
+        #[inline]
+        pub fn $n(self)->Self{let(l,r)=self.into();(l.$n(),r.$n()).into()}
+    );
+    ($n:ident, $($ns:ident),+) => ( impl_fn!($n); impl_fn!($($ns),+);)
+}
+
+impl Frame {
+    impl_fn!(
+        floor, ceil, round, trunc, fract,
+        abs, signum, recip, sqrt, cbrt,
+        exp, exp2, ln, log2, log10,
+        to_radians, to_degrees,
+        sin, asin, sinh, asinh,
+        cos, acos, cosh, acosh,
+        tan, atan, tanh, atanh
+    );
+}
 
 impl From<Sample> for Frame {
     #[inline]
