@@ -58,17 +58,15 @@ macro_rules! impl_op {
 
             #[inline]
             fn $f(self, other: Self) -> Self {
-                let ([ls, rs], [lo, ro]) = (self.0, other.0);
-                Self { 0: [ls $o lo, rs $o ro] }
+                let([l,r],[lo,ro])=(self.0,other.0);[l $o lo,r $o ro].into()
             }
         }
 
         impl $ta for Frame {
             #[inline]
             fn $fa(&mut self, other: Self) {
-                let &mut [ref mut ls, ref mut rs] = &mut self.0;
-                let [lo, ro] = other.0;
-                *ls $oa lo; *rs $oa ro;
+                let(&mut[ref mut l,ref mut r],[lo,ro])=(&mut self.0,other.0);
+                *l $oa lo; *r $oa ro;
             }
         }
     )
