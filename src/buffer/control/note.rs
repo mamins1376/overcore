@@ -265,10 +265,10 @@ impl NoteParams {
     /// # Examples
     /// ```
     /// use overlib::buffer::control::NoteParams;
-    /// let params = NoteParams::from_velocities(100., 100., 0.);
+    /// let params = NoteParams::from_velocities([100.; 2].into(), 0.);
     /// assert_eq!(params, NoteParams { velocity: 100., panning: 0., cents: 0. });
     ///
-    /// let params = NoteParams::from_velocities(0., 100., 0.);
+    /// let params = NoteParams::from_velocities([0., 100.].into(), 0.);
     /// assert_eq!(params, NoteParams { velocity: 100., panning: -100., cents: 0. });
     /// ```
     pub fn from_velocities(frame: Frame, cents: f64) -> Self {
