@@ -19,7 +19,7 @@ macro_rules! fn_is_as {
         ///
         /// # Examples
         /// ```
-        /// use overlib::buffer::control::ParamValue;
+        /// use overcore::buffer::control::ParamValue;
         /// let value = ParamValue::new_$name(0 as
         #[doc = stringify!($t)]
         /// );
@@ -40,7 +40,7 @@ macro_rules! fn_is_as {
         /// # Examples
         /// ```
         /// use std::panic::catch_unwind;
-        /// use overlib::buffer::control::ParamValue;
+        /// use overcore::buffer::control::ParamValue;
         ///
         /// let value = ParamValue::new_$name(0 as $type);
         /// assert_eq!(value.as_$name(), 0 as $type);
@@ -64,7 +64,7 @@ impl ParamValue {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::{ParamType, ParamValue};
+    /// use overcore::buffer::control::{ParamType, ParamValue};
     /// let value = ParamValue::Index(42);
     /// assert_eq!(value.get_type(), ParamType::Index);
     /// ```

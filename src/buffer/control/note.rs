@@ -16,7 +16,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::C.index(), 0);
     /// assert_eq!(NoteAlphabet::A.index(), 9);
     /// ```
@@ -42,7 +42,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.freq(), 440.);
     /// ```
     pub fn freq(&self) -> f64 { self.detune(0.) }
@@ -52,7 +52,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.detune(0.), NoteAlphabet::A.freq());
     /// assert_eq!(NoteAlphabet::A.detune(100.), NoteAlphabet::As.freq());
     /// assert_eq!(NoteAlphabet::A.detune(-900.), NoteAlphabet::C.freq());
@@ -68,7 +68,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.transpose(0), NoteAlphabet::A);
     /// assert_eq!(NoteAlphabet::A.transpose(5), NoteAlphabet::D);
     /// assert_eq!(NoteAlphabet::A.transpose(-3), NoteAlphabet::Fs);
@@ -83,7 +83,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.flatten(), NoteAlphabet::Gs);
     /// assert_eq!(NoteAlphabet::C.flatten(), NoteAlphabet::B);
     /// ```
@@ -94,7 +94,7 @@ impl NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.sharpen(), NoteAlphabet::As);
     /// assert_eq!(NoteAlphabet::B.sharpen(), NoteAlphabet::C);
     /// ```
@@ -108,7 +108,7 @@ impl From<isize> for NoteAlphabet {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::from(0), NoteAlphabet::C);
     /// assert_eq!(NoteAlphabet::from(7), NoteAlphabet::G);
     /// assert_eq!(NoteAlphabet::from(16), NoteAlphabet::E);
@@ -152,7 +152,7 @@ impl<'a> TryFrom<&'a str> for NoteAlphabet {
     /// #![feature(try_from)]
     ///
     /// use std::convert::TryFrom;
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     ///
     /// assert_eq!(NoteAlphabet::try_from("C"), Ok(NoteAlphabet::C));
     /// assert_eq!(NoteAlphabet::try_from("g#"), Ok(NoteAlphabet::Gs));
@@ -206,7 +206,7 @@ impl NoteName {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::{NoteAlphabet, NoteName};
+    /// use overcore::buffer::control::{NoteAlphabet, NoteName};
     /// let name = NoteName { 0: NoteAlphabet::A, 1: 5 };
     /// assert_eq!(name.freq().round(), 880.);
     /// ```
@@ -217,7 +217,7 @@ impl NoteName {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteAlphabet;
+    /// use overcore::buffer::control::NoteAlphabet;
     /// assert_eq!(NoteAlphabet::A.detune(0.), NoteAlphabet::A.freq());
     /// assert_eq!(NoteAlphabet::A.detune(100.), NoteAlphabet::As.freq());
     /// assert_eq!(NoteAlphabet::A.detune(-900.), NoteAlphabet::C.freq());
@@ -264,7 +264,7 @@ impl NoteParams {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteParams;
+    /// use overcore::buffer::control::NoteParams;
     /// let params = NoteParams::from_velocities([100.; 2].into(), 0.);
     /// assert_eq!(params, NoteParams { velocity: 100., panning: 0., cents: 0. });
     ///
@@ -292,7 +292,7 @@ impl NoteParams {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::{NoteParam, NoteParams};
+    /// use overcore::buffer::control::{NoteParam, NoteParams};
     /// let mut params = NoteParams { velocity: 100., panning: 0., cents: 0., };
     /// params.apply(&NoteParam::Velocity(50.));
     /// params.apply(&NoteParam::Panning(-30.));
@@ -311,7 +311,7 @@ impl NoteParams {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::{NoteParam, NoteParams};
+    /// use overcore::buffer::control::{NoteParam, NoteParams};
     /// let mut params = NoteParams { velocity: 100., panning: 0., cents: 0., };
     /// params.gain(2);
     /// assert_eq!(params, NoteParams { velocity: 200., panning: 0., cents: 0. });
@@ -325,7 +325,7 @@ impl NoteParams {
     ///
     /// # Examples
     /// ```
-    /// use overlib::buffer::control::NoteParams;
+    /// use overcore::buffer::control::NoteParams;
     /// let params = NoteParams { velocity: 80., panning: 0., cents: 0. };
     /// assert_eq!(params.velocities(), [80.; 2].into());
     ///

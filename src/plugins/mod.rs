@@ -14,7 +14,7 @@ pub mod prelude {
     //!
     //! # Examples
     //! ```
-    //! use overlib::plugins::prelude::*;
+    //! use overcore::plugins::prelude::*;
     //! ```
 
     pub use super::{PluginError, PluginResult};
@@ -240,7 +240,7 @@ macro_rules! with_field {
         /*
         #[doc = concat!("Set `self.", $sf, "` to `")]
         #[doc = $sf]
-        #[doc = "`.\n\n# Examples\n```\nuse overlib::plugins::PluginDesc;"]
+        #[doc = "`.\n\n# Examples\n```\nuse overcore::plugins::PluginDesc;"]
         #[doc = "\nlet desc = PluginDesc::default()."]
         #[doc = $sn]
         #[doc = "(\"field value\");\nassert_eq!(desc."]
@@ -259,7 +259,7 @@ impl PluginDesc {
     ///
     /// # Examples
     /// ```
-    /// use overlib::plugins::PluginDesc;
+    /// use overcore::plugins::PluginDesc;
     /// let desc = PluginDesc::default().with_id(42);
     /// assert_eq!(desc.id, 42);
     /// ```

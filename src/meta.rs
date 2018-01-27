@@ -27,7 +27,7 @@ impl<'a> License<'a> {
     ///
     /// # Examples
     /// ```
-    /// use overlib::meta::License;
+    /// use overcore::meta::License;
     ///
     /// let license = License::from("MIT");
     /// assert_eq!(license.is_known(), true);
@@ -43,7 +43,7 @@ impl<'a> License<'a> {
     ///
     /// # Examples
     /// ```
-    /// use overlib::meta::License;
+    /// use overcore::meta::License;
     ///
     /// let license = License::from("MIT");
     /// assert_eq!(license.as_known().is_some(), true);
@@ -62,7 +62,7 @@ impl<'a> License<'a> {
     ///
     /// # Examples
     /// ```
-    /// use overlib::meta::License;
+    /// use overcore::meta::License;
     ///
     /// let license = License::from("MIT");
     /// assert_eq!(license.text().starts_with("The MIT License"), true);

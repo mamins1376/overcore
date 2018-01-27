@@ -59,9 +59,9 @@ pub type Core = Arc<CoreInner>;
 
 pub type WeakCore = Weak<CoreInner>;
 
-pub struct Overlib(Arc<CoreInner>);
+pub struct Overcore(Arc<CoreInner>);
 
-impl Deref for Overlib {
+impl Deref for Overcore {
     type Target = Core;
 
     fn deref(&self) -> &Core { &self.0 }

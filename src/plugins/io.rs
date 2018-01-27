@@ -34,8 +34,8 @@ impl PluginInplaceIo {
     ///
     /// # Examples
     /// ```
-    /// use overlib::plugins::PluginIoKind;
-    /// use overlib::plugins::PluginInplaceIo;
+    /// use overcore::plugins::PluginIoKind;
+    /// use overcore::plugins::PluginInplaceIo;
     ///
     /// let inplace = PluginInplaceIo {
     ///     buffers: Box::new([]),
@@ -102,7 +102,7 @@ impl PluginIoMode {
     ///
     /// # Examples
     /// ```
-    /// use overlib::plugins::{PluginInplaceIo, PluginComplexIo, PluginIoMode};
+    /// use overcore::plugins::{PluginInplaceIo, PluginComplexIo, PluginIoMode};
     ///
     /// let mode = PluginIoMode::Complex(PluginComplexIo {
     ///     inputs: Box::new([]), outputs: Box::new([])

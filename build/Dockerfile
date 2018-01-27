@@ -12,4 +12,4 @@ RUN cargo build
 
 RUN rm -rf src/
 
-RUN find target/ -name '*overlib*' -type f -delete
+RUN find target/ -name '*overcore*' -type f -delete

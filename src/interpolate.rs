@@ -34,7 +34,7 @@ impl Interpolator {
     /// # Examples
     /// ```
     /// use std::f64::consts::FRAC_PI_4;
-    /// use overlib::interpolate::{Interpolation, Interpolator};
+    /// use overcore::interpolate::{Interpolation, Interpolator};
     ///
     /// let interpolator = Interpolator::new(Interpolation::Linear, 4, |x| x.sin());
     ///
