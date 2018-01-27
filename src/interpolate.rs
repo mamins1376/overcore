@@ -10,14 +10,18 @@ pub struct Interpolator(Interpolation, Box<[Sample]>);
 impl Interpolator {
     /// Create new function interpolator.
     ///
-    /// `f` is called exactly `n` times to map each `x` in range [0, 2pi).
-    /// later on [`get`], interpolation is done according to `int`.
+    /// `f` is called exactly `n` times to map each `x` in range [0, 2pi)
+    /// to a [`Sample`]. later on [`f`], interpolation is done according to
+    /// `int`.
     ///
-    /// # Panic
+    /// [`Sample`]: ../buffer/audio/type.Sample.html
+    /// [`f`]: #method.f
+    ///
+    /// # Panics
     /// Panics if n == 0.
     pub fn new<F>(i: Interpolation, n: usize, f: F) -> Self
         where F: FnMut(f64) -> Sample {
-        assert!(n != 0);
+        assert_ne!(n, 0);
 
         let known = (0..n).map(|i| i as f64 * TWO_PI / n as f64)
             .map(f).collect::<Vec<_>>().into_boxed_slice();
@@ -25,7 +29,18 @@ impl Interpolator {
         Self { 0: i, 1: known }
     }
 
-    /// Get or interpolate f(x)
+    /// Interpolate f(x).
+    ///
+    /// # Examples
+    /// ```
+    /// use std::f64::consts::FRAC_PI_4;
+    /// use overlib::interpolate::{Interpolation, Interpolator};
+    ///
+    /// let interpolator = Interpolator::new(Interpolation::Linear, 4, |x| x.sin());
+    ///
+    /// assert_eq!(interpolator.f(0.), 0.);
+    /// assert_eq!(interpolator.f(FRAC_PI_4), 0.5);
+    /// ```
     pub fn f(&self, x: f64) -> Sample {
         let x = x * self.1.len() as f64 / TWO_PI;
 
@@ -47,7 +62,7 @@ impl Interpolator {
 impl Index<isize> for Interpolator {
     type Output = Sample;
 
-    /// Get x as a periodic function
+    /// Get f(i) like f is a periodic function.
     fn index(&self, i: isize) -> &Sample {
         let (mut i, len) = (i, self.1.len() as isize);
         loop {
