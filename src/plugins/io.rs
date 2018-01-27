@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
-use ::buffer::control::ControlBuffer;
-use ::buffer::audio::AudioBuffer;
+use buffer::control::ControlBuffer;
+use buffer::audio::AudioBuffer;
 
 #[derive(Debug, Clone, PartialEq)]
 /// Represents the kind of an IO buffer.

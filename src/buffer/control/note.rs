@@ -1,6 +1,6 @@
 use std::convert::TryFrom;
-use ::buffer::prelude::Frame;
-use ::hardconf::TWO_POW_ONE_TWELFTH;
+use buffer::prelude::Frame;
+use hardconf::TWO_POW_ONE_TWELFTH;
 
 #[derive(Debug, PartialEq, Clone, Eq, Hash)]
 /// Alphabets of a [`NoteName`] (e.g. E in "E3").

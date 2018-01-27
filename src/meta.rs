@@ -1,5 +1,5 @@
 use std::str::FromStr;
-use ::license;
+use license;
 
 // a workaround for kind - shouldn't it simply impl License???
 fn kind_as_license(kind: &license::Kind) -> &license::License {

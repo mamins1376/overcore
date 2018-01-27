@@ -1,8 +1,8 @@
 use std::f64::consts::PI;
 use std::collections::HashMap;
-use ::buffer::prelude::*;
-use ::plugins::prelude::*;
-use ::Core;
+use buffer::prelude::*;
+use plugins::prelude::*;
+use Core;
 use super::NativePlugin;
 
 #[inline]
