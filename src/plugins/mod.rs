@@ -28,7 +28,7 @@ pub mod prelude {
 mod io;
 pub use self::io::*;
 
-pub mod native;
+pub mod core;
 
 #[derive(Debug, Clone, PartialEq)]
 /// Represents an error in some operation done by a plugin or factory.

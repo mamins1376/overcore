@@ -2,10 +2,10 @@ use Core;
 use super::prelude::*;
 use super::{Factory, FactoryDesc};
 
-pub mod function_generator;
-use self::function_generator::FunctionGenerator;
+mod function_generator;
+pub use self::function_generator::FunctionGenerator;
 
-pub trait NativePlugin: Plugin {
+pub trait CorePlugin: Plugin {
     fn new(core: &Core) -> Self;
 
     fn get_uuid() -> &'static str;
@@ -13,15 +13,15 @@ pub trait NativePlugin: Plugin {
     fn get_desc(id: usize) -> PluginDesc;
 }
 
-/// A factory which holds native plugins
-pub struct NativeFactory<'a> { core: &'a Core }
+/// A factory which holds core plugins
+pub struct CoreFactory<'a> { core: &'a Core }
 
-impl<'a> NativeFactory<'a> {
-    /// Create new `NativeFactory`.
+impl<'a> CoreFactory<'a> {
+    /// Create new `CoreFactory`.
     pub fn new(core: &'a Core) -> Self { Self { core } }
 }
 
-impl<'a> Factory for NativeFactory<'a> {
+impl<'a> Factory for CoreFactory<'a> {
     fn get_descriptor(&self) -> FactoryDesc {
         FactoryDesc {
             uuid: "d5d0cdb6-24bd-4223-92c6-7f59ca0d9502".to_owned(),

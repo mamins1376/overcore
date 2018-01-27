@@ -3,7 +3,7 @@ use std::collections::HashMap;
 use buffer::prelude::*;
 use plugins::prelude::*;
 use Core;
-use super::NativePlugin;
+use super::CorePlugin;
 
 #[inline]
 fn calculate(position: f64, state: &mut NoteState) -> Frame {
@@ -99,7 +99,7 @@ impl Plugin for FunctionGenerator {
     }
 }
 
-impl NativePlugin for FunctionGenerator {
+impl CorePlugin for FunctionGenerator {
     fn new(core: &Core) -> Self {
         Self {
             0: HashMap::new(),
