@@ -48,9 +48,9 @@ impl Interpolator {
             Interpolation::Floor => self[x.floor() as isize],
             Interpolation::Nearest => self[x.round() as isize],
             Interpolation::Linear => {
-                let (x_l, x_h) = (x.floor(), x.ceil());
+                let x_l = x.floor();
                 let y_l = self[x_l as isize];
-                let y_h = self[x_h as isize];
+                let y_h = self[x_l as isize + 1];
                 let (x_d, y_d) = (x - x_l, y_h - y_l);
                 y_l + x_d * y_d
             },
