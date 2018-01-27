@@ -1,11 +1,9 @@
-use super::Core;
+use Core;
 
 pub struct Graph {}
 
 impl Graph {
-    pub fn new() -> Self {
+    pub fn new(_: &Core) -> Self {
         Self {}
     }
-
-    pub fn initialize(&self, _core: &Core) {}
 }

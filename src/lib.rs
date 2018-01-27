@@ -16,53 +16,39 @@ pub mod plugins;
 
 pub mod graph;
 
-use std::sync::{Arc, Weak};
-use std::ops::Deref;
-use self::buffer::BufferPool;
-use self::buffer::prelude::{ControlBuffer, AudioBuffer};
 use self::graph::Graph;
 
-pub struct Config {
+#[derive(Debug, Clone)]
+pub struct CoreConfig {
     pub sample_rate: u32,
     pub buffer_size: usize,
     pub pool_preallocate: usize
 }
 
-pub struct Pools {
-    pub control: BufferPool<ControlBuffer>,
-    pub audio: BufferPool<AudioBuffer>
+#[derive(Debug, Clone, PartialEq)]
+pub enum CoreStatus { Created, Initialized, Processing, Idle, CleaningUp }
+
+pub struct Core {
+    pub config: CoreConfig,
+
+    pub status: CoreStatus,
+
+    graph: Option<Graph>
 }
 
-pub struct CoreInner {
-    pub config: Config,
-    pub pools: Pools,
-    pub graph: Graph
-}
+impl Core {
+    pub fn new(config: CoreConfig) -> Self {
+        let (status, graph) = (CoreStatus::Created, None);
+        Self { config, status, graph }
+    }
 
-impl CoreInner {
-    pub fn new(config: Config) -> Arc<Self> {
-        let control = BufferPool::new(config.buffer_size);
-        let audio = BufferPool::new(config.buffer_size);
-        let pools = Pools { control, audio };
-        let graph = Graph::new();
-        let this = Arc::new(Self { config, pools, graph });
+    pub fn initialize(&mut self) {
+        assert!(self.status == CoreStatus::Created);
 
-        this.graph.initialize(&this);
+        self.graph = Some(Graph::new(&self));
 
-        this
+        self.status = CoreStatus::Initialized;
     }
 
     pub fn start(&self) {}
-}
-
-pub type Core = Arc<CoreInner>;
-
-pub type WeakCore = Weak<CoreInner>;
-
-pub struct Overcore(Arc<CoreInner>);
-
-impl Deref for Overcore {
-    type Target = Core;
-
-    fn deref(&self) -> &Core { &self.0 }
 }

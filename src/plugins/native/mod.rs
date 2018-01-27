@@ -1,4 +1,4 @@
-use ::Core;
+use Core;
 use super::prelude::*;
 use super::{Factory, FactoryDesc};
 
@@ -14,16 +14,14 @@ pub trait NativePlugin: Plugin {
 }
 
 /// A factory which holds native plugins
-pub struct NativeFactory { core: Core }
+pub struct NativeFactory<'a> { core: &'a Core }
 
-impl NativeFactory {
+impl<'a> NativeFactory<'a> {
     /// Create new `NativeFactory`.
-    pub fn new(core: &Core) -> Self {
-        Self { core: core.clone() }
-    }
+    pub fn new(core: &'a Core) -> Self { Self { core } }
 }
 
-impl Factory for NativeFactory {
+impl<'a> Factory for NativeFactory<'a> {
     fn get_descriptor(&self) -> FactoryDesc {
         FactoryDesc {
             uuid: "d5d0cdb6-24bd-4223-92c6-7f59ca0d9502".to_owned(),
@@ -33,9 +31,7 @@ impl Factory for NativeFactory {
     }
 
     fn get_plugins(&self) -> Box<[PluginDesc]> {
-        box [
-            FunctionGenerator::get_desc(0),
-       ]
+        box [ FunctionGenerator::get_desc(0) ]
     }
 
     fn create_plugin(&mut self, id: usize) -> PluginResult<Box<Plugin>> {
