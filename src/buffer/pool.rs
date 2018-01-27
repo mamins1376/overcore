@@ -12,6 +12,17 @@ impl<T: Buffer> BufferPool<T> {
         Self { length, stack: Mutex::new(Vec::new()) }
     }
 
+    /// Allocate new buffers.
+    pub fn allocate(&self, n: usize) {
+        let mut stack = self.stack.lock().unwrap();
+        (0..n).map(|_| T::with_length(self.length)).for_each(|b| stack.push(b));
+    }
+
+    pub fn len() -> usize {
+        let stack = self.stack.lock().unwrap();
+        stack.len()
+    }
+
     pub fn acquire(&self) -> BufferGuard<T> {
         let buffer = { let mut stack = self.stack.lock().unwrap(); stack.pop() };
         let buffer = buffer.unwrap_or_else(|| T::with_length(self.length));
