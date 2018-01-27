@@ -18,7 +18,7 @@ impl<T: Buffer> BufferPool<T> {
         (0..n).map(|_| T::with_length(self.length)).for_each(|b| stack.push(b));
     }
 
-    pub fn len() -> usize {
+    pub fn len(&self) -> usize {
         let stack = self.stack.lock().unwrap();
         stack.len()
     }
